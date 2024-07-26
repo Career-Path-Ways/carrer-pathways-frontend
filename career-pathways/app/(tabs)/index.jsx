@@ -45,7 +45,7 @@ const Home = () => {
       companyName='Ecobank Ghana PLC'
       site='On-Site'
       location='Lapaz, Accra'
-      amount='GH¢ 5,500 - GH¢ 8, 000'
+      amount='GH¢ 5,500 - GH¢ 8,000'
       duration='Full-time'
       />
 

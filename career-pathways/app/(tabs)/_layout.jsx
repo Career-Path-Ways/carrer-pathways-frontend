@@ -24,10 +24,10 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="applications"
+        name="savedJobs"
         options={{
-          title: 'Applications',
-          tabBarIcon: ({ color }) => <MaterialIcons name="work-outline" size={27} color={color} />,
+          title: 'Saved Jobs',
+          tabBarIcon: ({ color }) => <MaterialIcons name="bookmarks" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
