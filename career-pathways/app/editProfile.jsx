@@ -1,23 +1,33 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 import SettingHeaderLeft from '../components/SettingHeaderLeft'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
 
 const editProfile = () => {
     const profileImg = require('../assets/images/Ellipse.png')
   return (
-    <View>
+    <View style={styles.editProfileContainer}>
         <Stack.Screen options={{
             headerShown: true,
             headerStyle: {
-                height: 140
+                height: 100
             },
-            headerLeft: () => <SettingHeaderLeft label='Edit profile'/>
+            headerLeft: () => <SettingHeaderLeft label='Complete Profile'/>
         }}
         />
 
-        <View>
-            <Image source={profileImg} />
+        <View 
+        style={{width: '100%' , flexDirection: 'row', justifyContent: 'center', marginTop: 20, marginBottom: 10}}>
+            <Image source={profileImg} style={{width: 96, height: 96}} />
+            <View 
+            style={{width: 32, height: 32, backgroundColor: '#202871', borderRadius: 20, position: 'relative', left: -30, top: 70}}>
+                <TouchableOpacity 
+                style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                <MaterialIcons name="mode-edit" size={24} color="#ffffff" />
+                </TouchableOpacity>
+            </View>
         </View>
 
             <Text style={styles.registerContentText} >Full Name</Text>
@@ -50,7 +60,7 @@ const editProfile = () => {
             <View style={styles.registerTextBoxContainer}>
                 <TextInput
                 style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
-                placeholder='example@email.com'
+                placeholder='0246579087'
                 />
             </View>
 
@@ -62,17 +72,11 @@ const editProfile = () => {
                 />
             </View>
 
-            <Text style={styles.registerContentText}>Company</Text>
-            <View style={styles.registerTextBoxContainer}>
-                <TextInput
-                style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
-                placeholder='example@email.com'
-                />
+            <View style={styles.signInButtonContainer}>
+            <TouchableOpacity style={styles.signInButton}>
+            <Text style={styles.signInButtonText}>Continue</Text>
+            </TouchableOpacity>    
             </View>
-
-
-
-
     </View>
   )
 }
@@ -80,6 +84,14 @@ const editProfile = () => {
 export default editProfile
 
 const styles = StyleSheet.create({
+
+    editProfileContainer: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: '#FFFFFF',
+        paddingHorizontal: 20
+    },
+    
     registerContentText: {
         color: '#202871',
         fontSize: 15,
@@ -99,5 +111,27 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 15,
         alignItems: 'center'
-    }
+    },
+
+    signInButtonContainer: {
+        width: 328,
+        height: 48,
+        backgroundColor: '#202871',
+        borderRadius: 8,
+        marginTop: 40,
+      },
+
+      signInButton: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+
+      signInButtonText: {
+        color: '#fff',
+        fontFamily: 'PoppinsSemiBold',
+        fontSize: 16,
+        lineHeight: 24,
+      },
 })

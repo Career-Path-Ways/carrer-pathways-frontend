@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginTop: 380,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
   },
   text1: {
     color: '#E9F0F4',

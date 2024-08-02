@@ -76,10 +76,9 @@ const SignIn = () => {
       <View style={styles.signInButtonContainer}>
         <TouchableOpacity onPress={handleSignIn} style={styles.signInButton}>
           <Text style={styles.signInButtonText}>Sign In</Text>
-        </TouchableOpacity>
-
-            
+        </TouchableOpacity>    
       </View>
+      
       <View style={{flexDirection: 'row', marginTop: 15, marginBottom: 60, marginHorizontal: 40}}>
                 <Text 
                 style={{fontFamily: 'PoppinsMedium', fontSize: 14, color: '#202871', lineHeight: 21}}

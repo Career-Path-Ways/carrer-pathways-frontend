@@ -14,7 +14,7 @@ const ProfileHeaderRight = () => {
           </TouchableOpacity>
         </Link>
 
-        <Link href='app/editProfile' asChild>
+        <Link href='editProfile' asChild>
           <TouchableOpacity style={{justifyContent: 'flex-start'}}>
               <MaterialIcons name="mode-edit" size={27} color="#202871" />
           </TouchableOpacity>
