@@ -1,8 +1,28 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const HeaderLeft = () => {
     const profileImage = require('../assets/images/Ellipse.png')
+    const [name, setName] = useState('')
+
+    const loadUserData = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem('firstName');
+          const userData = jsonValue != null ? JSON.parse(jsonValue) : null;
+          setName(userData) ;
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+    useEffect(
+        () => {
+            loadUserData()
+        }, []
+    )
+    
+      
   return (
     <View 
     style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', margin: 15}}>
@@ -16,7 +36,7 @@ const HeaderLeft = () => {
             </Text>
             <Text 
             style={{fontFamily: 'PoppinsSemiBold', fontSize: 18, lineHeight: 27, color: '#202871'}}>
-                Melvin Kuffour
+                {name}
             </Text>
         </View>
     </View>

@@ -4,6 +4,9 @@ import { router, Stack } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signIn } from '../components/auth';
+
 
 const SignIn = () => {
   const logo = require('../assets/images/CareerLogo.png');
@@ -11,25 +14,38 @@ const SignIn = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errors, setErrors] = useState({})
+  const [msg, setMsg] = useState('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/test');
-        setData(response.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchData();
-  }, []);
+  const validate = () => {
+    const newErrors = {};
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Email address is invalid';
+    }
 
-  const handleSignIn = () => {
-    router.replace('(tabs)');
+    if (!password) {
+      newErrors.password = 'Password is required';
+    } else if (password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
+
+  const handleSignIn = async()=>{
+    if(validate()){
+      await signIn(email, password)
+      setMsg(await AsyncStorage.getItem('msg'))
+    }
+   }
+
+
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -51,8 +67,12 @@ const SignIn = () => {
               placeholder="example@email.com"
               style={styles.textInput}
               selectionColor="#202871"
+              value={email}
+              onChangeText={setEmail}
             />
           </View>
+          {errors.email && <Text style={{color: 'red'}}>{errors.email}</Text>}
+
 
           <Text style={styles.signInContentText}>Password</Text>
           <View style={styles.signInTextBoxContainer}>
@@ -61,11 +81,16 @@ const SignIn = () => {
               placeholder="Password"
               selectionColor="#202871"
               secureTextEntry={!passwordVisible}
+              value={password}
+              onChangeText={setPassword}
             />
             <Pressable onPress={togglePasswordVisibility}>
               <MaterialIcons name={passwordVisible ? "visibility-off" : "visibility"} size={24} color="grey" />
             </Pressable>
           </View>
+          {errors.password && <Text style={{color: 'red'}}>{errors.password}</Text>}
+          {msg &&  <Text style={{color: 'red'}}>{msg}</Text>}
+
         </View>
       </View>
 

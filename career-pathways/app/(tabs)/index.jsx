@@ -1,24 +1,42 @@
-import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import { Stack } from 'expo-router';
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { router, Stack } from 'expo-router';
 import HeaderLeft from '../../components/HeaderLeft';
 import HeaderRight from '../../components/HeaderRight';
 import { MaterialIcons } from '@expo/vector-icons';
 import JobCard from '../../components/JobCard';
-import jobListings from '../../data';
+import { Get_Jobs } from '../../components/job';
 
 const Home = () => {
   const ecobank = require('../../assets/images/ecobank_transnational_icon.jpeg.png');
-
+  const [jobListings, setJobListings] = useState([])
 
   const [search, setSearch] = useState('');
-  const [jobs] = useState(jobListings);
+  const [jobs, setJobs] = useState([]);
+  const [processing, setProcessing] = useState(true)
+
+  useEffect(
+     () => {
+      async function getJobs(){
+      const jobs = await Get_Jobs()
+      setJobListings(jobs)
+      }
+      getJobs()
+
+      setProcessing(false)
+    }, []
+  )
+
+  useEffect(() => {
+    setJobs(jobListings);
+  }, [jobListings]);
 
   // Function to filter items based on search query
   const filteredJobs = jobs.filter(job => {
+    console.log("joblistings:", jobListings)
     const reg = new RegExp(search, 'i');
-    return reg.test(job.jobTitle) ||
-           reg.test(job.companyName) ||
+    return reg.test(job.title) ||
+           reg.test(job.company.name) ||
            reg.test(job.site) ||
            reg.test(job.location) ||
            reg.test(job.amount) ||
@@ -86,17 +104,19 @@ const Home = () => {
         )}
 
         <Text style={styles.homeHeadings1}>Recent Jobs</Text>
-        {filteredJobs.map((item, key) => (
-          <JobCard 
-            key={key}
-            jobTitle={item.jobTitle} 
-            companyLogo={item.companyLogo}
-            companyName={item.companyName}
+        {filteredJobs.length ===0 && <ActivityIndicator size="large" color="#0000ff" />}
+        {filteredJobs.map((item) => (
+
+            <JobCard
+            item = {item}
+            jobTitle={item.title} 
+            companyLogo={item.logo}
+            companyName={item.company.name}
             site={item.site}
             location={item.location}
             amount={item.amount}
             duration={item.duration}
-          />
+          /> 
         ))}
       </ScrollView>
     </View>
@@ -139,6 +159,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     color: '#202871',
   },
+  
   homeHeadings: {
     fontFamily: 'PoppinsSemiBold',
     fontSize: 17,

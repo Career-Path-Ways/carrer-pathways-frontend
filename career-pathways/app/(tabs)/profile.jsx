@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React from 'react'
 import { Stack } from 'expo-router'
 import ProfileHeaderLeft from '../../components/ProfileHeaderLeft'
@@ -27,12 +27,26 @@ const profile = () => {
         headerShadowVisible: false
       }}/>
 
-      <ProfileDetailCard icon={summaryIcon} label='Summary'/>
-      <ProfileDetailCard icon={workExperience} label='Work Experience'/>
-      <ProfileDetailCard icon={education} label='Education'/>
-      <ProfileDetailCard icon={skills} label='Skills'/>
-      <ProfileDetailCard icon={languages} label='Languages'/>
-      <ProfileDetailCard icon={resume} label='CV/Resume'/>
+        <Text 
+        style={{fontFamily: 'PoppinsSemiBold', fontSize: 18, lineHeight: 27, color: '#202871', marginBottom: 7, marginLeft: 15}}
+        >
+          About Me
+        </Text>
+
+        <ScrollView style={{paddingVertical: 10,  borderTopEndRadius: 36}}>
+          <Text 
+          style={{textAlign: 'justify', fontFamily: 'Poppins', color: '#42498A', fontSize: 16, marginHorizontal: 15 }}>
+        I am a Software Developer with 5 years of experience specializing in full-stack web development and cloud computing.
+        My passion lies in creating efficient, scalable solutions 
+        and I have a proven track record of delivering high-quality, user-friendly applications.
+        {"\n"}{"\n"}Throughout my career, I've had the opportunity to work on a wide range of web applications 
+        across various industries, collaborating with cross-functional teams to achieve outstanding results{"\n"}{"\n"}
+         My strengths include problem-solving, attention to detail, effective communication, and team leadership, and I am always eager to learn and grow in my profession.
+        I thrive in dynamic environments and am always up for a challenge.  
+        I am committed to continuous improvement, both personally and professionally, 
+        and I am excited to contribute my skills and experience to a forward-thinking organization.
+          </Text>
+        </ScrollView>
 
     </View>
   )

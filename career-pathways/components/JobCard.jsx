@@ -1,13 +1,18 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
-const JobCard = ({jobTitle, companyName, companyLogo, location, amount , duration, site}) => {
+const JobCard = ({jobTitle, companyName, companyLogo, location, amount , duration, site, item}) => {
+    if (typeof companyLogo !== 'string') {
+        console.log('companyLogo is not a string:', companyLogo);
+        companyLogo = 'https://picsum.photos/id/237/200/300'; // Fallback URL
+      }
   return (
-    <View style={styles.jobCardContainer}>
+    <TouchableOpacity onPress={() => router.push({ pathname: '/jobDetail', params: {item: JSON.stringify(item) } })} style={styles.jobCardContainer}>
         <View 
         style={{width: 292, height:60, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#D3DFE7', marginVertical: 10}}>
-            <Image source={companyLogo} style={{width: 48, height: 48}} />
+            <Image source={{uri:companyLogo }} style={{width: 48, height: 48, borderRadius: 4}} />
             <View style={{width: 200, height: 33}}>
                 <Text 
                 style={{fontFamily: 'PoppinsBold', fontSize: 16, lineHeight: 24, color: '#202871'}}
@@ -53,7 +58,7 @@ const JobCard = ({jobTitle, companyName, companyLogo, location, amount , duratio
             </View>
         </View>
 
-    </View>
+    </TouchableOpacity>
   )
 }
 

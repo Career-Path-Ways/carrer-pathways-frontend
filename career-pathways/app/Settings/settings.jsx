@@ -8,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { useState } from 'react';
+import { logout } from '../../components/auth';
 
 const settings = () => {
     const [visible, setVisible] = useState(false);
@@ -93,7 +94,7 @@ const settings = () => {
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity onPress={logout}
             style={{width: 328, height: 48, backgroundColor: '#DD214F', justifyContent: 'center', alignItems: 'center', borderRadius: 8}}>
                <Text 
                 style={{fontFamily: 'Poppins', fontSize: 16, lineHeight: 24, color: '#FFFFFF'}}>
