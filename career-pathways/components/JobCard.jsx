@@ -1,33 +1,44 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
+import { removeSavedJobs } from './job';
 
-const JobCard = ({jobTitle, companyName, companyLogo, location, amount , duration, site, item}) => {
+const JobCard = ({jobTitle, companyName, companyLogo, location, amount , duration, site, item, onData, noLink}) => {
+    const pathname = usePathname()
+    console.log(pathname, 'This is pathname')
     if (typeof companyLogo !== 'string') {
         console.log('companyLogo is not a string:', companyLogo);
         companyLogo = 'https://picsum.photos/id/237/200/300'; // Fallback URL
       }
+
+      const removeBookmark = async () => {
+        const jobs = await removeSavedJobs(item.id)
+        onData(jobs)
+      }
   return (
-    <TouchableOpacity onPress={() => router.push({ pathname: '/jobDetail', params: {item: JSON.stringify(item) } })} style={styles.jobCardContainer}>
+    <TouchableOpacity   onPress={!noLink ? () => router.push({ pathname: '/jobDetail', params: { item: JSON.stringify(item) } }) : undefined}
+    style={styles.jobCardContainer}>
         <View 
-        style={{width: 292, height:60, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#D3DFE7', marginVertical: 10}}>
+        style={{width: 292, height:60, flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#D3DFE7', marginVertical: 10, paddingBottom: 3}}>
             <Image source={{uri:companyLogo }} style={{width: 48, height: 48, borderRadius: 4}} />
-            <View style={{width: 200, height: 33}}>
+            <View style={{width: 200, minHeight: 33}}>
                 <Text 
                 style={{fontFamily: 'PoppinsBold', fontSize: 16, lineHeight: 24, color: '#202871'}}
                 >
                     {jobTitle}
                 </Text>
                 <Text 
-                style={{fontFamily: 'PoppinsSemiBold', fontSize: 14, lineHeight: 21, color: '#858BBD', flexWrap: 'wrap'}}
+                style={{fontFamily: 'PoppinsSemiBold', fontSize: 14, lineHeight: 21, color: '#858BBD', flexWrap: 'wrap', marginBottom: 3}}
                 >
                     {companyName}
                 </Text>
             </View>
-            <TouchableOpacity>
-                <MaterialIcons name="bookmark-add" size={25} color="#202871" />
-            </TouchableOpacity>
+            {(pathname !== '/jobDetail' && pathname !== '/'  ) && <TouchableOpacity onPress={removeBookmark}>
+                <MaterialIcons name="bookmark-remove" size={25} color="#DD214F" />
+            </TouchableOpacity> }
+            
+            
         </View>
 
         <View style={{width: 292, height: 72, alignItems: 'center'}}>

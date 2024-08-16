@@ -104,7 +104,7 @@ const SignIn = () => {
         </TouchableOpacity>    
       </View>
       
-      <View style={{flexDirection: 'row', marginTop: 15, marginBottom: 60, marginHorizontal: 40}}>
+          <View style={{flexDirection: 'row', marginTop: 15, marginBottom: 60, marginHorizontal: 40}}>
                 <Text 
                 style={{fontFamily: 'PoppinsMedium', fontSize: 14, color: '#202871', lineHeight: 21}}
                 >Already have an account? </Text>
@@ -115,8 +115,6 @@ const SignIn = () => {
                 </Link>
                 
             </View>
-
-      
     </View>
   );
 };

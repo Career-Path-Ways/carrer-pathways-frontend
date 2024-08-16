@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView,  ActivityIndicator, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { router, Stack } from 'expo-router';
 import HeaderLeft from '../../components/HeaderLeft';
@@ -11,9 +11,11 @@ const Home = () => {
   const ecobank = require('../../assets/images/ecobank_transnational_icon.jpeg.png');
   const [jobListings, setJobListings] = useState([])
 
+
   const [search, setSearch] = useState('');
   const [jobs, setJobs] = useState([]);
   const [processing, setProcessing] = useState(true)
+  const noResult = require('../../assets/images/unknown.png')
 
   useEffect(
      () => {
@@ -24,6 +26,8 @@ const Home = () => {
       getJobs()
 
       setProcessing(false)
+
+  
     }, []
   )
 
@@ -68,49 +72,16 @@ const Home = () => {
       </View>
 
       <ScrollView>
-        {search === '' && (
-          <>
-            <Text style={styles.homeHeadings}>Recommended Jobs</Text>
-            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.jobCardContainer}>
-              <JobCard
-                jobTitle='Chartered Accountant'
-                companyLogo={ecobank}
-                companyName='Ecobank Ghana PLC'
-                site='On-Site'
-                location='Lapaz, Accra'
-                amount='GH¢ 5,500 - GH¢ 8,000'
-                duration='Full-time'
-              />
-              <JobCard
-                jobTitle='Operations Manager'
-                companyLogo={ecobank}
-                companyName='Ecobank Ghana PLC'
-                site='On-Site'
-                location='Lapaz, Accra'
-                amount='GH¢ 5,500 - GH¢ 8,000'
-                duration='Full-time'
-              />
-              <JobCard
-                jobTitle='Financial Consultant'
-                companyLogo={ecobank}
-                companyName='Ecobank Ghana PLC'
-                site='On-Site'
-                location='Lapaz, Accra'
-                amount='GH¢ 5,500 - GH¢ 8,000'
-                duration='Full-time'
-              />
-            </ScrollView>
-          </>
-        )}
 
         <Text style={styles.homeHeadings1}>Recent Jobs</Text>
         {filteredJobs.length ===0 && <ActivityIndicator size="large" color="#0000ff" />}
-        {filteredJobs.map((item) => (
+        {filteredJobs.map((item, key) => (
 
             <JobCard
+            key={key}
             item = {item}
             jobTitle={item.title} 
-            companyLogo={item.logo}
+            companyLogo={item.company.logo}
             companyName={item.company.name}
             site={item.site}
             location={item.location}

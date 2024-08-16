@@ -3,6 +3,7 @@ import {Stack} from 'expo-router'
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useCallback } from 'react';
+import FlashMessage from 'react-native-flash-message';
 
 const Layout = () => {
 
@@ -25,19 +26,24 @@ const Layout = () => {
   }
 
   return (
-      <Stack
-        onLayout={onLayoutRootView}
-       screenOptions={{
-        statusBarColor: 'black',
-        headerStyle:  {
-          backgroundColor: '#ffffff',
-        },
-        headerShadowVisible: false,
-        headerBackVisible: false,
-        headerTitle: '',
-        headerShown: false
-        
-      }}/> 
+    <>
+    <FlashMessage position='top'/>
+
+<Stack
+  onLayout={onLayoutRootView}
+ screenOptions={{
+  statusBarColor: 'black',
+  headerStyle:  {
+    backgroundColor: '#ffffff',
+  },
+  headerShadowVisible: false,
+  headerBackVisible: false,
+  headerTitle: '',
+  headerShown: false
+  
+}}/> 
+    </>
+    
   )
 }   
 

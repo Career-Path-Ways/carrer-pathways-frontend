@@ -1,21 +1,41 @@
-import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TextInput, ScrollView, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Stack } from 'expo-router'
 import JobsHeaderLeft from '../../components/JobsHeaderLeft'
 import JobsHeaderRight from '../../components/JobsHeaderRight'
 import { MaterialIcons } from '@expo/vector-icons';
 import JobCardSaved from '../../components/JobCardSaved'
 import { sortRoutes } from 'expo-router/build/sortRoutes'
+import { getSavedJobs } from '../../components/job'
+import JobCard from '../../components/JobCard'
+import FlashMessage from 'react-native-flash-message'
 
 
 const savedJobs = () => {
 
-  const ecobank = require('../../assets/images/ecobank_transnational_icon.jpeg.png')
-  const cbg = require('../../assets/images/cbg_logo.png.png')
-  const GCB = require('../../assets/images/gcbbankcomgh_logo.png.png')
+  const [jobs, setJobs] = useState([])
+
+  useEffect(
+    () => {
+      async function SaveJobs() {
+        const jobs = await getSavedJobs()
+        setJobs(jobs)
+        console.log('This is the saved jobs', jobs)
+        
+      }
+
+      SaveJobs()
+    }, 
+    []
+  )
+
+  const updateJobs = (data) => {
+    setJobs(data)
+  }
 
   return (
     <View style={styles.savedJobsContainer}>
+
       <Stack.Screen options={{
         headerTitle: '',
         headerStyle: {
@@ -41,45 +61,21 @@ const savedJobs = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.savedJobsList}>
-      <JobCardSaved
-      jobTitle='Chartered Accountant'
-      companyLogo={ecobank}
-      companyName='Ecobank Ghana PLC'
-      site='On-Site'
-      location='Lapaz, Accra'
-      amount='GH¢ 5,500 - GH¢ 8,000'
-      duration='Full-time'
-      />
-
-      <JobCardSaved
-      jobTitle='Chartered Accountant'
-      companyLogo={GCB}
-      companyName='Ecobank Ghana PLC'
-      site='On-Site'
-      location='Lapaz, Accra'
-      amount='GH¢ 5,500 - GH¢ 8, 000'
-      duration='Full-time'
-      />
-
-      <JobCardSaved
-      jobTitle='Chartered Accountant'
-      companyLogo={ecobank}
-      companyName='Ecobank Ghana PLC'
-      site='On-Site'
-      location='Lapaz, Accra'
-      amount='GH¢ 5,500 - GH¢ 8,000'
-      duration='Full-time'
-      />
-
-      <JobCardSaved
-      jobTitle='Chartered Accountant'
-      companyLogo={cbg}
-      companyName='Ecobank Ghana PLC'
-      site='On-Site'
-      location='Lapaz, Accra'
-      amount='GH¢ 5,500 - GH¢ 8, 000'
-      duration='Full-time'
-      />
+      {jobs.length ===0 && <ActivityIndicator size="large" color="#0000ff" />}
+       {jobs.map((item) => (
+      <JobCard
+      key={item.id}
+      item = {item}
+      jobTitle={item.title} 
+      companyLogo={item.logo}
+      companyName={item.company.name}
+      site={item.site}
+      location={item.location}
+      amount={item.amount}
+      duration={item.duration}
+      onData={updateJobs}
+      /> 
+      ))} 
       </ScrollView>
       
 
