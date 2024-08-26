@@ -1,8 +1,22 @@
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
-import React from 'react';
-import { Link } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Link, router } from 'expo-router';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const Index = () => {
+  const handleAuth = async () => {
+    const authenticated = await AsyncStorage.getItem('loggedIn');
+    console.log('logged In', JSON.parse(authenticated))
+
+    if (authenticated){
+      router.navigate('(tabs)')
+    }else{
+      router.navigate('signIn')
+    }
+  }
+  
   return (
     <ImageBackground 
       source={require('../assets/images/Onboarding.png')} 
@@ -17,13 +31,11 @@ const Index = () => {
         </Text>
 
         <View style={styles.buttonContainer}>
-          <Link push href='signIn' asChild>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={handleAuth}>
               <Text style={styles.buttonText}>
                 Get Started
               </Text>
             </TouchableOpacity>
-          </Link>
         </View>
       </View>
     </ImageBackground>
@@ -43,7 +55,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'flex-start',
     marginTop: 380,
-    marginHorizontal: 30,
+    marginHorizontal: 20,
   },
   text1: {
     color: '#E9F0F4',

@@ -1,12 +1,27 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, Pressable } from 'react-native'
 import React, { useState } from 'react'
-import { Stack } from 'expo-router'
+import { router, Stack } from 'expo-router'
 import { MaterialIcons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import axios from 'axios';
+import { register } from '../components/auth';
+
 
 const Register = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [firstname, setFirstname]= useState('')
+  const [lastname, setLastname]= useState('')
+  const [username, setUsername]= useState('')
+  const [email, setEmail]= useState('')
+  const [password, setPassword]= useState('')
+  const [confirmPassword, setConfirmPassword]= useState('')
+  const [dateOfBirth, setDateOfBirth] = useState('')
+
+    const RegisterHandler = async ()=>{
+        await register(firstname, lastname, username, email, password, confirmPassword, dateOfBirth)
+    }
+
 
   return (
     <View 
@@ -28,6 +43,8 @@ const Register = () => {
                 placeholder='First Name'
                 style={{fontFamily: 'PoppinsMedium', fontSize: 14, lineHeight: 21, color: '#202871',
             width: '100%'}}
+                value={firstname}
+                onChangeText={setFirstname}
                 />
                 
             </View>
@@ -38,6 +55,9 @@ const Register = () => {
                 placeholder='Last Name'
                 style={{fontFamily: 'PoppinsMedium', fontSize: 14, lineHeight: 21, color: '#202871',
                 width: '100%' }}
+                value={lastname}
+                onChangeText={setLastname}
+
                 />
             </View>
 
@@ -46,6 +66,9 @@ const Register = () => {
                 <TextInput
                 placeholder='Enter username'
                 style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
+                value={username}
+                onChangeText={setUsername}
+
                 />
             </View>
             
@@ -54,6 +77,8 @@ const Register = () => {
                 <TextInput
                 style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
                 placeholder='example@email.com'
+                value={email}
+                onChangeText={setEmail}
                 />
             </View>
         
@@ -63,6 +88,8 @@ const Register = () => {
                 style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
                 placeholder='Password'
                 secureTextEntry={!passwordVisible}
+                value={password}
+                onChangeText={setPassword}
                 />
                 <Pressable onPress={() => setPasswordVisible(!passwordVisible)}>
                     <MaterialIcons name={passwordVisible ? "visibility-off" : "visibility"} size={24} color="grey" />
@@ -75,6 +102,9 @@ const Register = () => {
                 style={{fontSize: 16, lineHeight: 21, color: '#202871'}}
                 placeholder='Confirm password'
                 secureTextEntry={!confirmPasswordVisible}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+
                 />
                 <Pressable onPress={() => setConfirmPasswordVisible(!confirmPasswordVisible)}>
                     <MaterialIcons name={confirmPasswordVisible ? "visibility-off" : "visibility"} size={24} color="grey" />
@@ -84,21 +114,22 @@ const Register = () => {
             <Text style={styles.registerContentText}>Date of Birth</Text>
             <View style={styles.registerTextBoxContainer}>
                 <TextInput
+                
                 placeholder='DD/MM/YYYY'
+                value={dateOfBirth}
+                onChangeText={setDateOfBirth}
                 />
                 
             </View>
 
             <View 
                 style={{width: 328, height: 48, backgroundColor: '#202871', borderRadius: 8, marginTop: 15 }}>
-                <Link href='(tabs)' asChild>
-                <TouchableOpacity 
+                <TouchableOpacity onPress={RegisterHandler}
                 style={{width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center'}}>
                     <Text 
                     style={{color: '#fff', fontFamily: 'PoppinsSemiBold', fontSize: 16, lineHeight: 24}}
                     >Register</Text>
                 </TouchableOpacity>
-                </Link>
                 
             </View>
 
@@ -119,6 +150,7 @@ const Register = () => {
     </View>
   )
 }
+
 
 export default Register
 
